@@ -67,6 +67,8 @@ route.post("/login", async (req, res) => {
         const token = await jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, {
             expiresIn : process.env.JWT_EXPIRE
         });
+
+        return res.cookie({ "token" : token }).json({ success : true, message : "Logged in Successfully"})
     }
     catch (error) {
         return res.json({ error : error })
