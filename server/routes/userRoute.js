@@ -34,11 +34,11 @@ route.post("/register", async (req, res) => {
         const token = await jwt.sign({ id : user._id }, process.env.SECRET_KEY, {
             expiresIn : process.env.JWT_EXPIRE,
         });
-
+        return res.cookie({ 'token' : token }).json({ success : true, message : "User registered successfully", data: user})
     }
 
-    catch {
-
+    catch (error) {
+        return res.json({ error : error })
     }
 })
 
