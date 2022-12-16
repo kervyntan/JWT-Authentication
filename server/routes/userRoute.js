@@ -43,8 +43,34 @@ route.post("/register", async (req, res) => {
 })
 
 // User login route:
-route.post("/login", (req, res) => {
+route.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.json({ message : "Please enter all the details" })
+        }
 
+        //Check if user exist
+        const userExist = await userModel.findOne({ email : req.body.email })
+        if (!userExist) {
+            return res.json({ message : "Either this account does not exist or your credentials are wrong."})
+        }
+        
+        // Validation
+        // Check if password matches
+        const isPasswordMatch = await bcrypt.compare(password, userExist.password);
+        if (!isPasswordMatch) {
+            return res.json({ message : "Password is wrong."})
+        }
+
+        // Create JWT 
+        const token = await jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, {
+            expiresIn : process.env.JWT_EXPIRE
+        });
+    }
+    catch (error) {
+        return res.json({ error : error })
+    }
 })
 
 // GET user's data
