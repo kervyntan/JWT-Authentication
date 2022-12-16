@@ -1,2 +1,2 @@
 # JWT Authentication
- Using Node.JS, Express and React to build a JWT authentication service
+ Using Node.JS, Express, Mongoose and React to build a JWT authentication service
