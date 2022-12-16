@@ -90,3 +90,5 @@ route.get('/user', async (req, res) => {
         return res.json({ error : error });
     }
 })
+
+module.exports = route;
