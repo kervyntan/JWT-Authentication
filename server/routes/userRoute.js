@@ -76,6 +76,17 @@ route.post("/login", async (req, res) => {
 })
 
 // GET user's data
-route.get('/user', (req, res) => {
+route.get('/user', async (req, res) => {
+    try {
+        // see if user is in DB
+        const user = await userModel.find();
 
+        if (!user) {
+            return res.json({ message : "No user is found." })
+        }
+        return res.json({user : user});
+    }
+    catch (error) {
+        return res.json({ error : error });
+    }
 })
