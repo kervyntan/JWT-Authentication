@@ -1,7 +1,8 @@
 const express = require('express');
 const route = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); 
+const isAuth = require("../middleware/auth");
 // import userModel
 const userModel = require("../models/userModel");
 
@@ -76,7 +77,7 @@ route.post("/login", async (req, res) => {
 })
 
 // GET user's data
-route.get('/user', async (req, res) => {
+route.get('/user', isAuth, async (req, res) => {
     try {
         // see if user is in DB
         const user = await userModel.find();
